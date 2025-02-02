@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時間差計算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>時間差計算器</h2>
+    <label for="startTime">開始時間：</label>
+    <input type="time" id="startTime">
+    <br>
+    <label for="endTime">結束時間：</label>
+    <input type="time" id="endTime">
+    <br>
+    <button onclick="calculateTimeDifference()">計算</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateTimeDifference() {
+            let startTime = document.getElementById("startTime").value;
+            let endTime = document.getElementById("endTime").value;
+            
+            if (!startTime || !endTime) {
+                document.getElementById("result").innerText = "請輸入完整的時間！";
+                return;
+            }
+            
+            let start = new Date("1970-01-01T" + startTime + ":00");
+            let end = new Date("1970-01-01T" + endTime + ":00");
+            
+            if (end < start) {
+                end.setDate(end.getDate() + 1); // 跨天處理
+            }
+            
+            let diffMs = end - start;
+            let hours = Math.floor(diffMs / (1000 * 60 * 60));
+            let minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+            
+            document.getElementById("result").innerText = `時間間隔：${hours} 小時 ${minutes} 分鐘 ${seconds} 秒`;
+        }
+    </script>
+</body>
+</html>
